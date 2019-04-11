@@ -17,13 +17,13 @@ public class UserFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return User.class.equals(clazz);
+		return Voucher.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 
-		User user = (User) target;
+		Voucher user = (Voucher) target;
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "voucher", "NotEmpty.userForm.voucher");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
