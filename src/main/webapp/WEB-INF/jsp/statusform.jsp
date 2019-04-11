@@ -10,21 +10,25 @@
 			$("#msg-alert").delay(1000).fadeOut(500, function() {
 				$(this).remove();
 			});
-			
+
 			var interval = function() {
 				$.ajax({
 					type : "get",
 					url : "http://localhost:8080/api/status", //this is my servlet
 					success : function(msg) {
 						console.log(msg);
+						var dt = new Date();
+						var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+						var text = $('#comment').val();
+						$('#comment').val(time  + ' -- ' + msg + '\n' + text);
 						if (msg !== 'stop') {
-							setTimeout(interval, 100);	
-						}							
+							setTimeout(interval, 100);
+						}
 					},
 				});
-			}			
-			setTimeout(interval, 2000);			
-			
+			}
+			setTimeout(interval, 2000);
+
 		});
 	</script>
 
@@ -51,6 +55,11 @@
 			<label class="col-sm-2 control-label">Voucher</label> <label
 				class="col-sm-2 control-label">${voucher}</label>
 		</div>
+		<div class="col-sm-10">
+			<label class="col-sm-2 control-label">Comment:</label>
+			<textarea class="col-sm-10" rows="5" id="comment"></textarea>
+		</div>
+
 	</div>
 	<jsp:include page="fragments/footer.jsp" />
 </body>
