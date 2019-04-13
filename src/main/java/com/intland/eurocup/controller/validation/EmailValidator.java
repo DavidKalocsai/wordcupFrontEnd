@@ -1,4 +1,4 @@
-package com.intland.eurocup;
+package com.intland.eurocup.controller.validation;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -15,13 +15,14 @@
 				$.ajax({
 					type : "get",
 					url : "http://localhost:8080/api/status", //this is my servlet
-					success : function(msg) {
-						console.log(msg);
+					data: {	"responseId" : ${id} },
+					success : function(response) {
+						console.log(response.status + response.message);
 						var dt = new Date();
 						var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 						var text = $('#comment').val();
-						$('#comment').val(time  + ' -- ' + msg + '\n' + text);
-						if (msg !== 'stop') {
+						$('#comment').val(time  + ' -- {' + response.status + " " + response.message + '}\n' + text);
+						if (response.status === 'NO') {
 							setTimeout(interval, 100);
 						}
 					},

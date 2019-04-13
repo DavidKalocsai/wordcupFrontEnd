@@ -1,5 +1,7 @@
-package com.intland.eurocup;
+package com.intland.eurocup.controller;
 
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.intland.eurocup.jms.frontend.VoucherJmsSender;
-import com.intland.eurocup.jms.model.VoucherFromUi;
+import com.intland.eurocup.common.jms.model.FrontendJmsMessage;
+import com.intland.eurocup.controller.validation.UserFormValidator;
+import com.intland.eurocup.jms.frontend.JmsFrontendSender;
+import com.intland.eurocup.model.Request;
 
 @Controller
 public class WelcomeController {
 
 	Logger logger = Logger.getLogger(WelcomeController.class.getSimpleName());
+	
+	private AtomicLong requestIdSequence = new AtomicLong(0); //TODO move this out
 
 	@Autowired
 	private UserFormValidator userFormValidator;
 	
 	@Autowired
-	private VoucherJmsSender jmsSender;
+	private JmsFrontendSender jmsSender;
+	
+	
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
@@ -43,7 +51,7 @@ public class WelcomeController {
 	@RequestMapping(value = "/users/add", method = RequestMethod.GET)
 	public String showAddUserForm(Model model) {
 
-		Voucher user = new Voucher();
+		Request user = new Request();
 
 		// set default value
 		user.setVoucher("mkyong123");
@@ -55,7 +63,7 @@ public class WelcomeController {
 
 	// save or update user
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST)
-	public ModelAndView saveOrUpdateUser(@ModelAttribute("userForm") @Validated Voucher user, BindingResult result) {
+	public ModelAndView saveOrUpdateUser(@ModelAttribute("userForm") @Validated Request user, BindingResult result) {
 
 		if (result.hasErrors()) {
 			ModelAndView model = new ModelAndView("userform");
@@ -63,18 +71,22 @@ public class WelcomeController {
 			model.addObject("msg", "Validation failed!");
 			return model;
 		} else {
+			final FrontendJmsMessage frontendJmsMessage = createVoucher(user.getEmail(), user.getVoucher());
 			ModelAndView model = new ModelAndView("statusform");
 			model.addObject("css", "success");
 			model.addObject("msg", "User added successfully!");
 			model.addObject("email", user.getEmail());
 			model.addObject("voucher", user.getVoucher());
-			jmsSender.send(createVoucher(user.getEmail(), user.getVoucher()));
+			model.addObject("id", frontendJmsMessage.getRequestId());
+			jmsSender.send(frontendJmsMessage);
 			return model;
 		}
 	}// save or update user
 	
-	private VoucherFromUi createVoucher(final String email, final String voucher) {
-		final VoucherFromUi voucherFromUi = new VoucherFromUi();
+	private FrontendJmsMessage createVoucher(final String email, final String voucher) {
+		final FrontendJmsMessage voucherFromUi = new FrontendJmsMessage();
+		final Long requestId = requestIdSequence.getAndIncrement();
+		voucherFromUi.setRequestId(requestId);
 		voucherFromUi.setEmail(email);
 		voucherFromUi.setTerritory("Germany");
 		voucherFromUi.setVoucher(voucher);

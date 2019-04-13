@@ -1,4 +1,4 @@
-package com.intland.eurocup;
+package com.intland.eurocup.controller.exception;
 
 import javax.servlet.http.HttpServletRequest;
 

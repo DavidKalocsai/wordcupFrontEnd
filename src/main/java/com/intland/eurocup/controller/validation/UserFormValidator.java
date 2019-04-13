@@ -1,4 +1,4 @@
-package com.intland.eurocup;
+package com.intland.eurocup.controller.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
+import com.intland.eurocup.model.Request;
 
 //http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html#validation-mvc-configuring
 @Component
@@ -17,13 +19,13 @@ public class UserFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Voucher.class.equals(clazz);
+		return Request.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 
-		Voucher user = (Voucher) target;
+		Request user = (Request) target;
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "voucher", "NotEmpty.userForm.voucher");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
