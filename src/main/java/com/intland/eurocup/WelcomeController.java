@@ -1,4 +1,4 @@
-package com.mkyong;
+package com.intland.eurocup;
 
 import java.util.logging.Logger;
 
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+
+import com.intland.eurocup.jms.frontend.VoucherJmsSender;
+import com.intland.eurocup.jms.model.VoucherFromUi;
 
 @Controller
 public class WelcomeController {
@@ -22,7 +23,10 @@ public class WelcomeController {
 	Logger logger = Logger.getLogger(WelcomeController.class.getSimpleName());
 
 	@Autowired
-	UserFormValidator userFormValidator;
+	private UserFormValidator userFormValidator;
+	
+	@Autowired
+	private VoucherJmsSender jmsSender;
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
@@ -64,7 +68,16 @@ public class WelcomeController {
 			model.addObject("msg", "User added successfully!");
 			model.addObject("email", user.getEmail());
 			model.addObject("voucher", user.getVoucher());
+			jmsSender.send(createVoucher(user.getEmail(), user.getVoucher()));
 			return model;
 		}
 	}// save or update user
+	
+	private VoucherFromUi createVoucher(final String email, final String voucher) {
+		final VoucherFromUi voucherFromUi = new VoucherFromUi();
+		voucherFromUi.setEmail(email);
+		voucherFromUi.setTerritory("Germany");
+		voucherFromUi.setVoucher(voucher);
+		return voucherFromUi;
+	}
 }

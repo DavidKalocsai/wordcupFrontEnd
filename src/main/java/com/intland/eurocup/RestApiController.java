@@ -1,4 +1,4 @@
-package com.mkyong;
+package com.intland.eurocup;
 
 import java.util.Random;
 import java.util.logging.Logger;

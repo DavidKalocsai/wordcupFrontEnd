@@ -1,4 +1,4 @@
-package com.mkyong;
+package com.intland.eurocup;
 
 import javax.validation.constraints.Pattern;
 
