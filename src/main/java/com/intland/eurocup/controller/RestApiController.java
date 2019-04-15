@@ -15,7 +15,7 @@ public class RestApiController {
 	@Autowired
 	private ResponseStorage responseStorage;
 
-	@RequestMapping(value = "status", method = RequestMethod.GET)
+	@RequestMapping(value = "fetchResponse", method = RequestMethod.GET)
 	public Response fetchResponse(final Long responseId) {
 		return responseStorage.getResponse(responseId);
 	}
