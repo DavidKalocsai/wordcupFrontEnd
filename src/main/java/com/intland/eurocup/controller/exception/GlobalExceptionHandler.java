@@ -22,10 +22,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		logger.error("[URL] : {}", req.getRequestURL(), e);
 		
-		// If the exception is annotated with @ResponseStatus rethrow it and let
-		// the framework handle it - like the OrderNotFoundException example
-		// at the start of this post.
-		// AnnotationUtils is a Spring Framework utility class.
 		if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
 			throw e;
 

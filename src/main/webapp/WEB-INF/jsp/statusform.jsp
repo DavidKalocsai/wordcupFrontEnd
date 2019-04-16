@@ -24,7 +24,7 @@
 				},
 			});
 			}
-			setTimeout(interval, 2000);
+			setTimeout(interval, 100);
 		});
 	</script>
 

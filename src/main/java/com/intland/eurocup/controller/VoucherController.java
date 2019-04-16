@@ -15,19 +15,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.intland.eurocup.common.model.Territory;
 import com.intland.eurocup.controller.id.UniqueRequestIdGenerator;
+import com.intland.eurocup.controller.model.ModelViewFactory;
 import com.intland.eurocup.jms.adapter.AdapterSenderService;
 import com.intland.eurocup.model.Voucher;
 
 @Controller
 public class VoucherController {
 
-	Logger logger = Logger.getLogger(VoucherController.class.getSimpleName());
+	private Logger logger = Logger.getLogger(VoucherController.class.getSimpleName());
 
 	@Autowired
 	private UniqueRequestIdGenerator uniqueRequestIdGenerator;
 
 	@Autowired
 	private AdapterSenderService senderService;
+	
+	@Autowired
+	private ModelViewFactory modelViewFactory;
 
 	@RequestMapping("/")
 	public String welcome() {
@@ -36,37 +40,30 @@ public class VoucherController {
 
 	// show add user form
 	@RequestMapping(value = "{territory}/form", method = RequestMethod.GET)
-	public String showVoucherForm(@PathVariable String territory, Model model) {
-		model.addAttribute("formData", buildDefaultVoucher());
+	public String showVoucherForm(@PathVariable Territory territory, Model model) {
+		model.addAttribute("formData", getDefaultVoucher());
 		model.addAttribute("territory", territory);
 		return "voucherForm";
 	}
 
 	// save or update user
 	@RequestMapping(value = "{territory}/form", method = RequestMethod.POST)
-	public ModelAndView saveOrUpdateUser(@PathVariable String territory, @ModelAttribute("formData") @Validated Voucher voucher, BindingResult result) {
-
+	public ModelAndView saveOrUpdateUser(@PathVariable Territory territory, @ModelAttribute("formData") @Validated Voucher voucher, BindingResult result) {
+		ModelAndView model; 
 		if (result.hasErrors()) {
-			ModelAndView model = new ModelAndView("voucherForm");
-			model.addObject("css", "danger");
-			model.addObject("msg", "Validation failed!");
-			return model;
+			model = modelViewFactory.getModelView(false);
 		} else {
 			final Long requestId = uniqueRequestIdGenerator.getNext();
-			ModelAndView model = new ModelAndView("statusform");
-			model.addObject("css", "success");
-			model.addObject("msg", "Voucher redeem request submitted!");
-			model.addObject("email", voucher.getEmail());
-			model.addObject("code", voucher.getCode());
-			model.addObject("territory", territory);
+			model = modelViewFactory.getModelView(true);
 			model.addObject("id", requestId);
-			voucher.setTerritory(Territory.getEnumFromCode(territory));
+			voucher.setTerritory(territory);
 			senderService.send(requestId, voucher);
 			return model;
 		}
+		return model;		
 	}
 	
-	private Voucher buildDefaultVoucher() {
+	private Voucher getDefaultVoucher() {
 		final Voucher voucher = new Voucher();
 		voucher.setCode("abcdef123");
 		voucher.setEmail("test@gmail.com");
