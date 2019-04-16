@@ -6,22 +6,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<jsp:include page="fragments/header.jsp" />
 <body>
 
-	<jsp:include page="fragments/header.jsp" />
 	<div class="container">
-		<c:if test="${not empty msg}">
-			<div class="alert alert-${css} alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<strong>${msg}</strong>
-			</div>
-		</c:if>
+		<jsp:include page="fragments/message.jsp" />
 
 		<form:form class="form-horizontal" method="post"
-			modelAttribute="userForm" action="/users/add">
+			modelAttribute="formData" action="/${territory}/form">
 
 			<spring:bind path="email">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -34,13 +26,13 @@
 				</div>
 			</spring:bind>
 
-			<spring:bind path="voucher">
+			<spring:bind path="code">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<label class="col-sm-2 control-label">voucher</label>
+					<label class="col-sm-2 control-label">Voucher</label>
 					<div class="col-sm-10">
-						<form:input path="voucher" type="text" class="form-control "
-							id="voucher" placeholder="Voucher" />
-						<form:errors path="voucher" class="control-label" />
+						<form:input path="code" type="text" class="form-control "
+							id="code" placeholder="Voucher Code" />
+						<form:errors path="code" class="control-label" />
 					</div>
 				</div>
 			</spring:bind>
@@ -49,12 +41,11 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" id="call"
-						class="btn-lg btn-primary pull-right">Add</button>
+						class="btn-lg btn-primary pull-right">Redeem</button>
 				</div>
 			</div>
 		</form:form>
 	</div>
-
-	<jsp:include page="fragments/footer.jsp" />
 </body>
+<jsp:include page="fragments/footer.jsp" />
 </html>

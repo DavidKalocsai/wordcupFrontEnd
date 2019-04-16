@@ -1,5 +1,7 @@
 package com.intland.eurocup.jms.adapter;
 
+import org.springframework.stereotype.Service;
+
 import com.intland.eurocup.common.jms.model.MessageFromBackend;
 import com.intland.eurocup.common.jms.model.MessageFromFrontend;
 import com.intland.eurocup.common.model.LotResult;
@@ -7,6 +9,7 @@ import com.intland.eurocup.model.Response;
 import com.intland.eurocup.model.ResponseStatus;
 import com.intland.eurocup.model.Voucher;
 
+@Service
 public class MessageConverter {
 	
 	public Response convert(final MessageFromBackend message) {

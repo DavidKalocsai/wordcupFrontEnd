@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.intland.eurocup.common.model.Territory;
 import com.intland.eurocup.controller.id.UniqueRequestIdGenerator;
 import com.intland.eurocup.jms.adapter.AdapterSenderService;
 import com.intland.eurocup.model.Voucher;
@@ -36,14 +37,14 @@ public class VoucherController {
 	// show add user form
 	@RequestMapping(value = "{territory}/form", method = RequestMethod.GET)
 	public String showVoucherForm(@PathVariable String territory, Model model) {
-		model.addAttribute("voucherForm", buildDefaultVoucher());
+		model.addAttribute("formData", buildDefaultVoucher());
 		model.addAttribute("territory", territory);
 		return "voucherForm";
 	}
 
 	// save or update user
-	@RequestMapping(value = "{territory}/redeem", method = RequestMethod.POST)
-	public ModelAndView saveOrUpdateUser(@PathVariable String territory, @ModelAttribute("form") @Validated Voucher voucher, BindingResult result) {
+	@RequestMapping(value = "{territory}/form", method = RequestMethod.POST)
+	public ModelAndView saveOrUpdateUser(@PathVariable String territory, @ModelAttribute("formData") @Validated Voucher voucher, BindingResult result) {
 
 		if (result.hasErrors()) {
 			ModelAndView model = new ModelAndView("voucherForm");
@@ -57,13 +58,14 @@ public class VoucherController {
 			model.addObject("msg", "Voucher redeem request submitted!");
 			model.addObject("email", voucher.getEmail());
 			model.addObject("code", voucher.getCode());
-			model.addObject("territory", voucher.getTerritory());
+			model.addObject("territory", territory);
 			model.addObject("id", requestId);
+			voucher.setTerritory(Territory.getEnumFromCode(territory));
 			senderService.send(requestId, voucher);
 			return model;
 		}
 	}
-
+	
 	private Voucher buildDefaultVoucher() {
 		final Voucher voucher = new Voucher();
 		voucher.setCode("abcdef123");

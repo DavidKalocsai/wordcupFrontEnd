@@ -1,11 +1,6 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="container">
 	<hr>
 	<footer>
-		<p>&copy; David Kalocsai 2019</p>
+		<p>&copy; Koka Kola 2016</p>
 	</footer>
 </div>
-
-
-
-

@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString @EqualsAndHashCode
 public class Voucher {
-	private static final String VOUCHER_CODE_PATTERN = "[A-Za-z]{10}";
+	private static final String VOUCHER_CODE_PATTERN = "[A-Za-z0-9]{10}";
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
