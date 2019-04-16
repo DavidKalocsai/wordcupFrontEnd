@@ -14,10 +14,7 @@
 				data: {	"responseId" : ${id} },
 				success : function(response) {
 					console.log(response.status + response.message);
-					var dt = new Date();
-					var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-					var text = $('#details').val();
-					$('#details').val(time  + ' -- {' + response.status + " " + response.message + '}\n' + text);
+					$('#details').text('{' + response.status + " " + response.message + '}\n');
 					if (response.status === 'NO') {
 						setTimeout(interval, 100);
 					}
@@ -40,15 +37,15 @@
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Email</label> <label
-				class="col-sm-2 control-label">${email}</label>
+				class="col-sm-2 control-label">${formData.email}</label>
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Voucher</label> <label
-				class="col-sm-2 control-label">${code}</label>
+				class="col-sm-2 control-label">${formData.code}</label>
 		</div>
 		<div class="col-sm-10">
-			<label class="col-sm-2 control-label">Details:</label>
-			<textarea class="col-sm-10" rows="5" id="details"></textarea>
+			<label class="col-sm-2 control-label">Details:</label> <label
+				class="col-sm-10control-label" id="details"></label>
 		</div>
 
 	</div>
