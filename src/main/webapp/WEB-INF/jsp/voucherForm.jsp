@@ -18,7 +18,7 @@
 		var validationResult = pattern.test(email);
 		console.log('Email' + validationResult);
 		document.getElementById('email-validation').style.display = validationResult ? 'none' : 'block';
-		//document.getElementById('form-group-email').className = validationResult ? 'form-group' : 'form-group has-error';
+		document.getElementById('form-group-email').className = validationResult ? 'form-group' : 'form-group has-error';
 		return validationResult;
 	}
 
@@ -29,7 +29,7 @@
 		var validationResult = pattern.test(code);
 		console.log('code' + validationResult);
 		document.getElementById('voucher-validation').style.display = validationResult ? 'none' : 'block';
-		//document.getElementById('form-group-voucher').className = validationResult ? 'form-group' : 'form-groug  has-error';
+		document.getElementById('form-group-voucher').className = validationResult ? 'form-group' : 'form-group has-error';
 		return validationResult;
 	}
 
@@ -39,7 +39,7 @@
 	}
 
 	function enableSubmitButton() {
-		document.getElementById('redeem-button').disabled = false;
+		document.getElementById('redeem-button').disabled = false; 	
 		document.getElementById('redeem-button').className = 'btn-lg btn-primary  pull-right';
 	}
 
@@ -69,7 +69,7 @@
 					<small class="text-danger" id="email-validation"><strong>Please enter valid email!</strong></small>
 				</div>
 			</div>
-			<div class="form-group has-error" id ="form-group-voucher">
+			<div class="form-group" id ="form-group-voucher">
 				<label class="col-sm-2 control-label">Voucher</label>
 				<div class="col-sm-10">
 					<form:input path="code" type="text" class="form-control" id="code"
