@@ -5,28 +5,8 @@
 </head>
 <body>
 	<jsp:include page="fragments/header.jsp" />
-	<script>
-		$(document).ready(function() {
-			setTimeout(ajaxPoll, 100);
-		});
-		
-		function ajaxPoll() {
-			$.ajax({
-					type : "get",
-					url : "http://localhost:8080/api/fetchResponse", //this is my servlet
-					data: {	"responseId" : ${id}},
-					success : responseArrived
-			});
-		};
-		
-		function responseArrived(response) {
-			console.log(response.status + response.message);
-			$('#details').text('{' + response.status + " " + response.message + '}\n');
-			if (response.status === 'NO') {
-				setTimeout(ajaxPoll, 100);
-			}
-		}
-	</script>
+	<script>var id = ${id}</script>
+	<script src="/resources/core/js/async-polling.js"></script>
 	
 
 	<div class="container">
