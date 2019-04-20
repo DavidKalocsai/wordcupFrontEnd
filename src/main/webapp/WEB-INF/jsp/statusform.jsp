@@ -7,23 +7,27 @@
 	<jsp:include page="fragments/header.jsp" />
 	<script>
 		$(document).ready(function() {
-			var interval = function() {
-			$.ajax({
-				type : "get",
-				url : "http://localhost:8080/api/fetchResponse", //this is my servlet
-				data: {	"responseId" : ${id} },
-				success : function(response) {
-					console.log(response.status + response.message);
-					$('#details').text('{' + response.status + " " + response.message + '}\n');
-					if (response.status === 'NO') {
-						setTimeout(interval, 100);
-					}
-				},
-			});
-			}
-			setTimeout(interval, 100);
+			setTimeout(ajaxPoll, 100);
 		});
+		
+		function ajaxPoll() {
+			$.ajax({
+					type : "get",
+					url : "http://localhost:8080/api/fetchResponse", //this is my servlet
+					data: {	"responseId" : ${id}},
+					success : responseArrived
+			});
+		};
+		
+		function responseArrived(response) {
+			console.log(response.status + response.message);
+			$('#details').text('{' + response.status + " " + response.message + '}\n');
+			if (response.status === 'NO') {
+				setTimeout(ajaxPoll, 100);
+			}
+		}
 	</script>
+	
 
 	<div class="container">
 		<jsp:include page="fragments/message.jsp" />
@@ -45,7 +49,7 @@
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Details:</label> <label
-				class="col-sm-10control-label" id="details"></label>
+				class="col-sm-10 control-label" id="details"></label>
 		</div>
 
 	</div>
