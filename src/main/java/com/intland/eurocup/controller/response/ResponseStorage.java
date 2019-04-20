@@ -16,6 +16,8 @@ import com.intland.eurocup.service.date.DateService;
 
 @Component
 public class ResponseStorage {
+	private static final int REPSONSE_TIMEOUT_MIN = 5 * 1000;
+	private static final int CLEANER_TASK_SCHEDULE = 6 * 1000;
 	private static final Response ERROR_RESPONSE = new Response(ResponseStatus.ERROR, "Request id not found!");
 
 	private final Map<Long, Response> responses = new ConcurrentHashMap<>();
@@ -51,21 +53,30 @@ public class ResponseStorage {
 
 	@Service
 	private class RepsonseStorageCleaner {
-		@Scheduled(fixedDelay = 1000)
+		@Scheduled(fixedDelay = CLEANER_TASK_SCHEDULE)
 		public void scheduleFixedDelayTask() {
 			removeNextOld();
 		}
 
 		private void removeNextOld() {
-			final DateTime timeoutedDateTime = dateService.getNow().minusMinutes(1);
+			final DateTime timeoutedDateTime = dateService.getNow().minusMinutes(REPSONSE_TIMEOUT_MIN);
 			System.out.println("Now: " + dateService.getNow() + " Cleaning: " + ResponseStorage.this.responses + " Timeout:" + timeoutedDateTime);
-			final Iterator<Response> iterator = ResponseStorage.this.responses.values().iterator(); 
+			iterate();
+		}
+
+		private void iterate() {
+			final Iterator<Response> iterator = ResponseStorage.this.responses.values().iterator(); 			
 			while(iterator.hasNext()){ 
-				Response response = iterator.next(); 
-				if(response.getCreatedDate().isBefore(timeoutedDateTime)){ 
+				final Response response = iterator.next(); 
+				if(isReponseTimout(response)){ 
 					iterator.remove(); 
 				} 
 			}
+		}
+
+		private boolean isReponseTimout(Response response) {
+			final DateTime timeoutedDateTime = dateService.getNow().minusMinutes(REPSONSE_TIMEOUT_MIN);
+			return response.getCreatedDate().isBefore(timeoutedDateTime);
 		}
 	}
 }
