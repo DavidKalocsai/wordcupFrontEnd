@@ -15,6 +15,6 @@ public class AdapterReceiverService {
 	private MessageConverter messageConverter;
 
 	public void persist(final MessageFromBackend message) {
-		responseStorage.saveResponseIfRequestIdRegistered(message.getRequestId(), messageConverter.convert(message));
+		responseStorage.save(message.getRequestId(), messageConverter.convert(message));
 	}
 }
