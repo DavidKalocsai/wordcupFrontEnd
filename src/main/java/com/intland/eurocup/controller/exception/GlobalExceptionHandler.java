@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return modelViewFactory.getModelView(ErrorModelViewType.UNKNOWN_TERRITORY);
 	}
 	
-	@ExceptionHandler(value = UnsupportedModelViewType.class)
+	@ExceptionHandler(value = UnsupportedModelViewTypeException.class)
 	public ModelAndView unsupportedModelViewTypeHandler(HttpServletRequest req, Exception e) throws Exception {
 		logException(e);		
 		return modelViewFactory.getModelView(ErrorModelViewType.UNSUPPORTED_VIEW);
