@@ -12,12 +12,15 @@ public class ErrorModelViewFactory {
 	private static final String ERROR_VIEW = "error";
 	private static final String UNKNOWN_TERRITORY = "Invalid Path: Territory is unsupported!";
 	private static final String UNKNOWN_ISSUE = "Sorry! Please try it later!";
+	private static final String UNSUPPORTED_VIEW = "Sorry! View is unsupported!";
 	
 	public ModelAndView getModelView(final ErrorModelViewType type) {
 		final ModelAndView modelView;
 		if (type == ErrorModelViewType.UNKNOWN_TERRITORY) {
 			modelView = getErrorModelAndView(UNKNOWN_TERRITORY);
-		}  else {
+		} else if (type == ErrorModelViewType.UNSUPPORTED_VIEW) {
+			modelView = getErrorModelAndView(UNSUPPORTED_VIEW);
+		}	else {
 			modelView = getErrorModelAndView(UNKNOWN_ISSUE);
 		}
 		log.info(modelView);
@@ -31,7 +34,8 @@ public class ErrorModelViewFactory {
 	}
 		
 	public enum ErrorModelViewType {
-		UNKNOWN_TERRITORY(),
+		UNKNOWN_TERRITORY,
+		UNSUPPORTED_VIEW,
 		OTHER		
 	}
 }
