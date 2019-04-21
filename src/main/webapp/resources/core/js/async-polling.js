@@ -1,5 +1,5 @@
 $(document).ready(function() {
-			setTimeout(ajaxPoll, 100);
+	setTimeout(ajaxPoll, 100);
 });
 		
 function ajaxPoll() {
@@ -15,6 +15,6 @@ function responseArrived(response) {
 	console.log(response.status + response.message);
 	$('#details').text('{' + response.status + " " + response.message + '}\n');
 	if (response.status === 'NO') {
-		setTimeout(ajaxPoll, 100);
-		}
+		setTimeout(ajaxPoll, 1000);
+	}
 };
