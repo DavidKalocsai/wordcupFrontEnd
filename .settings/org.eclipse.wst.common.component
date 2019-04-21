@@ -8,6 +8,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/voucher-frontend/target/classes"/>
-        <property name="context-root" value="spring-boot-web-jsp"/>
+        <property name="context-root" value="voucher-frontend"/>
     </wb-module>
 </project-modules>
