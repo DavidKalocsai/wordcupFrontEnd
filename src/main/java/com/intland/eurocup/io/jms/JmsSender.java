@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.intland.eurocup.common.jms.model.MessageFromFrontend;
 
+/**
+ * JMS Sender handles outgoing messages.
+ */
 @Component
 public class JmsSender {
 	Logger logger = LoggerFactory.getLogger(JmsSender.class);
@@ -19,6 +22,10 @@ public class JmsSender {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 	
+	/**
+	 * Sends message to destination.
+	 * @param message {@link MessageFromFrontend}
+	 */
 	public void send(final MessageFromFrontend message) {
 			logger.info("Frontend sends - " + message);
 			jmsTemplate.convertAndSend(queueName, message);

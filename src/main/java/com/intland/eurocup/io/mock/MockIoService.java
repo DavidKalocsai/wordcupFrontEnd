@@ -16,6 +16,9 @@ import com.intland.eurocup.model.Response;
 import com.intland.eurocup.model.ResponseStatus;
 import com.intland.eurocup.model.Voucher;
 
+/**
+ * Mocked IO Service. It is used to test application without JMS and Back end application. It randomize responses and simulates long running answer. 
+ */
 @Component
 @Profile("dev")
 public class MockIoService implements SenderService {

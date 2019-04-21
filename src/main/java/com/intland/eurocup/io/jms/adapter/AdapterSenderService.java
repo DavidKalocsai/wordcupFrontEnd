@@ -10,6 +10,9 @@ import com.intland.eurocup.io.SenderService;
 import com.intland.eurocup.io.jms.JmsSender;
 import com.intland.eurocup.model.Voucher;
 
+/**
+ * Adapter between JMS and the application. Converts voucher into outgoing message and passes message to JMS.
+ */
 @Component
 @Profile("default")
 public class AdapterSenderService implements SenderService {

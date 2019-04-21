@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Stores result of lot that is passed from the back end application.s
+ */
 @Getter
 @ToString
 public class Response {

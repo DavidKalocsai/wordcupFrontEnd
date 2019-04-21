@@ -4,9 +4,13 @@ package com.intland.eurocup.controller.model;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.intland.eurocup.controller.exception.UnsupportedModelViewTypeException;
+import com.intland.eurocup.controller.exception.ErrorModelViewFactory.ErrorModelViewType;
+import com.intland.eurocup.controller.model.exception.UnsupportedModelViewTypeException;
 import com.intland.eurocup.model.Voucher;
 
+/**
+* Model View Factory to build views for given page.
+*/
 @Service
 public class ModelViewFactory {
 	private static final String CSS_KEY = "css";
@@ -20,6 +24,13 @@ public class ModelViewFactory {
 	
 	private static final String FORM_DATA = "voucher";
 	
+	
+	/**
+	 * Get {@link ModelAndView} of given {@link ModelViewType}.
+	 * @param type {@link ModelViewType} - type of the view
+	 * @param voucher {@link Voucher} - voucher is used before (submit form) and after submit (status form).
+	 * @return {@link ModelAndView}
+	 */
 	public ModelAndView getModelView(final ModelViewType type, final Voucher voucher) {
 		final ModelAndView modelView;
 		if (type == ModelViewType.VOUCHER_FORM_VIEW) {
@@ -35,6 +46,9 @@ public class ModelViewFactory {
 		return modelView;		
 	}
 	
+	/**
+	 * Type of {@link ModelAndView} supported by {@link ModelViewFactory}.
+	 */
 	public enum ModelViewType {
 		VOUCHER_FORM_VIEW,
 		STATUS_VIEW

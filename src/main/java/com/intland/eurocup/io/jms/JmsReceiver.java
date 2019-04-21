@@ -9,6 +9,9 @@ import com.intland.eurocup.io.ReceiverService;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * JMS Receiver handles incoming messages.
+ */
 @Log4j
 @Component
 public class JmsReceiver {
@@ -16,6 +19,10 @@ public class JmsReceiver {
 	@Autowired
 	private ReceiverService receiverService;
 	
+	/**
+	 * It is called on message arrived from JMS to given destination. 
+	 * @param message {@link MessageFromBackend}
+	 */
 	@JmsListener(destination = "${jms.queue.to.ui.name}")
 	public void receiveMessage(final MessageFromBackend message) {
 		log.info("Received <" + message + ">");
