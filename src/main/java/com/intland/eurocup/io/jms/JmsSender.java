@@ -1,4 +1,4 @@
-package com.intland.eurocup.jms;
+package com.intland.eurocup.io.jms;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
