@@ -9,12 +9,10 @@
 <body>
 	<div class="container">
 		<h1>Error Page</h1>
-		<p>${exception.message}</p>
-		<!-- Exception: ${exception.message}.
-		  	<c:forEach items="${exception.stackTrace}" var="stackTrace"> 
-				${stackTrace} 
-			</c:forEach>
-	  	-->
+		<div class="alert alert-danger alert-dismissible" id="msg-alert"
+			role="alert">
+			<span>${msg}</span>
+		</div>
 	</div>
 	<jsp:include page="fragments/footer.jsp" />
 </body>
