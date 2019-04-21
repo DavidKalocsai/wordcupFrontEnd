@@ -1,4 +1,4 @@
-package com.intland.eurocup.jms.adapter;
+package com.intland.eurocup.io.jms.adapter;
 
 import org.springframework.stereotype.Service;
 
@@ -23,14 +23,12 @@ public class MessageConverter {
 		return response;
 	}
 	
-	public MessageFromFrontend convert(final Long requestId, final Voucher voucher) {
+	public MessageFromFrontend convert(final Voucher voucher) {
 		final MessageFromFrontend message = new MessageFromFrontend();
-		message.setRequestId(requestId);
+		message.setRequestId(voucher.getId());
 		message.setEmail(voucher.getEmail());
 		message.setVoucher(voucher.getCode());
 		message.setTerritory(voucher.getTerritory());
 		return message;
 	}
-	
-	
 }
