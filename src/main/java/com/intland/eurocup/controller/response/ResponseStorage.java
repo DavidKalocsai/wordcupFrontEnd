@@ -16,8 +16,8 @@ import com.intland.eurocup.service.date.DateService;
 
 @Component
 public class ResponseStorage {
-	private static final int REPSONSE_TIMEOUT_MIN = 5 * 1000;
-	private static final int CLEANER_TASK_SCHEDULE = 6 * 1000;
+	private static final int REPSONSE_TIMEOUT_MIN = 5;
+	private static final int CLEANER_TASK_SCHEDULE = 5 * 60 * 1000;
 	private static final Response ERROR_RESPONSE = new Response(ResponseStatus.ERROR, "Request id not found!");
 
 	private final Map<Long, Response> responses = new ConcurrentHashMap<>();
