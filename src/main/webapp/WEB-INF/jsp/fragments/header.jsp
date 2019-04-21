@@ -9,8 +9,8 @@
 </head>
 
 <spring:url value="/" var="urlHome" />
-<spring:url value="/HUN/form" var="urlHungary" />
-<spring:url value="/GER/form" var="urlGermany" />
+<spring:url value="/hun/form" var="urlHungary" />
+<spring:url value="/ger/form" var="urlGermany" />
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
