@@ -1,20 +1,22 @@
-package com.intland.eurocup.jms.adapter;
+package com.intland.eurocup.io.jms.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.intland.eurocup.common.jms.model.MessageFromBackend;
 import com.intland.eurocup.controller.response.ResponseStorage;
+import com.intland.eurocup.io.ReceiverService;
 
 @Component
-public class AdapterReceiverService {
+public class AdapterReceiverService implements ReceiverService {
 	@Autowired
 	private ResponseStorage responseStorage;
 	
 	@Autowired
 	private MessageConverter messageConverter;
-
-	public void persist(final MessageFromBackend message) {
+	
+	@Override
+	public void persist(MessageFromBackend message) {
 		responseStorage.save(message.getRequestId(), messageConverter.convert(message));
 	}
 }
