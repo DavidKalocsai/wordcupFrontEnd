@@ -14,27 +14,35 @@ import com.intland.eurocup.controller.model.ErrorModelViewFactory;
 import com.intland.eurocup.controller.model.ErrorModelViewFactory.ErrorModelViewType;
 import com.intland.eurocup.service.converter.exception.UnkownTerritoryException;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	@Autowired
 	private ErrorModelViewFactory modelViewFactory;
 	
 	
 	@ExceptionHandler(value = UnkownTerritoryException.class)
-	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-		
-		logger.error("UnkownTerritoryException catcehd: [URL] : {}", req.getRequestURL(), e);
-		
+	public ModelAndView unknownTerritoryHandler(HttpServletRequest req, Exception e) throws Exception {
+		logException(e);
 		return modelViewFactory.getModelView(ErrorModelViewType.UNKNOWN_TERRITORY);
+	}
+	
+	@ExceptionHandler(value = UnsupportedModelViewType.class)
+	public ModelAndView unsupportedModelViewTypeHandler(HttpServletRequest req, Exception e) throws Exception {
+		logException(e);		
+		return modelViewFactory.getModelView(ErrorModelViewType.UNSUPPORTED_VIEW);
 	}
 	
 	@ExceptionHandler(value = Throwable.class)
 	public ModelAndView defaultThrowableHandler(HttpServletRequest req, Exception e) throws Exception {
-		
-		logger.error("Exception catcehd: [URL] : {}", req.getRequestURL(), e);
-		
+		logException(e);
 		return modelViewFactory.getModelView(ErrorModelViewType.OTHER);
+	}
+	
+	private void logException(final Exception e) {
+		log.error("Exception handler: " + e);
 	}
 }
