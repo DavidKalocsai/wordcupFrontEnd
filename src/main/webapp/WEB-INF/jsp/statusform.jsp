@@ -5,7 +5,7 @@
 </head>
 <body>
 	<jsp:include page="fragments/header.jsp" />
-	<script>var id = ${id}</script>
+	<script>var id = ${voucher.id}</script>
 	<script src="/resources/core/js/async-polling.js"></script>
 	
 
@@ -17,15 +17,15 @@
 		<div class="col-sm-10"></div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Request Id</label> <label
-				class="col-sm-2 control-label">${id}</label>
+				class="col-sm-2 control-label">${voucher.id}</label>
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Email</label> <label
-				class="col-sm-2 control-label">${formData.email}</label>
+				class="col-sm-2 control-label">${voucher.email}</label>
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Voucher</label> <label
-				class="col-sm-2 control-label">${formData.code}</label>
+				class="col-sm-2 control-label">${voucher.code}</label>
 		</div>
 		<div class="col-sm-10">
 			<label class="col-sm-2 control-label">Details:</label> <label

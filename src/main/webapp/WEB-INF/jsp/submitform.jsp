@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,8 +13,9 @@
 	<div class="container">
 		<jsp:include page="fragments/message.jsp" />
 
+		<c:set var = "territoryLowerCase" value = "${fn:toLowerCase(voucher.territory)}" />
 		<form:form class="form-horizontal" method="post"
-			modelAttribute="formData" action="/${territory}/form">
+			modelAttribute="voucher" action="/${territoryLowerCase}/status">
 
 			<div class="form-group" id ="form-group-email">
 				<label class="col-sm-2 control-label">Email</label>
