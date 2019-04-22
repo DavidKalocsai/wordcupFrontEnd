@@ -1,6 +1,7 @@
 package com.intland.eurocup.io.jms;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import lombok.extern.log4j.Log4j;
  */
 @Log4j
 @Component
+@Profile("default")
 public class JmsReceiver {
 	
 	@Autowired
